@@ -1,3 +1,4 @@
+require "pry"
 def game_hash
   hash = {
     :home => {
@@ -129,100 +130,88 @@ end
 
 def num_points_scored(name)
   data = game_hash
-  data.each do |team, players|
+  data.each do |location, players|
     players[:players].each do |info|
-      if info[:player_name] == name
+      #binding.pry
+      if(info[:player_name] == name)
         return info[:points]
-      end
-    end
-  end
-end
-
-
-def team_colors(team_name)
-  data = game_hash
-  data.each do |team, teams|
-    if teams[:team_name] == team_name
-      return teams[:colors]
-    end
+      end 
+    end 
   end 
 end
 
 def shoe_size(name)
   data = game_hash
-  data.each do |team, players|
+  data.each do |location, players|
     players[:players].each do |info|
-      if info[:player_name] == name
+      if(info[:player_name] == name)
         return info[:shoe]
-      end
-    end
-  end
+      end 
+    end 
+  end 
 end
+
+def team_colors(team_name)
+  data = game_hash
+  data.each do |location, team|
+    if(team[:team_name]==team_name)
+      return team[:colors]
+    end 
+  end 
+end 
 
 def team_names
   arr = []
   data = game_hash
-  data.each do |team, teams|
-    arr.push(teams[:team_name])
-  end
+  data.each do |location, team|
+    arr.push(team[:team_name])
+  end 
   return arr
-end
+end 
 
 def player_numbers(team_name)
   arr = []
   data = game_hash
-  data.each do |location, team_info|
-    team_info[:players].count do |player_stat|
-      if team_info[:team_name] == team_name
-        arr.push(player_stat[:number])
+  data.each do |location, players|
+    players[:players].each do |info|
+      if(players[:team_name] == team_name)
+        arr.push(info[:number])
       end 
-    end
-  end
+    end 
+  end 
   return arr
 end 
 
-def team_colors(team_name)
-  data = game_hash
-  data.each do |team, teams|
-    if teams[:team_name] == team_name
-        return teams[:colors]
-    end
-  end
-end
-
 def player_stats(name)
-  stat = {}
   data = game_hash
-  data.each do |team, teams|
-    teams[:players].each do |names|
-      if names[:player_name] == name
-        #names.delete(:player_name)
-        stat = names
+  data.each do |location, players|
+    players[:players].each do |info|
+      if(info[:player_name] == name)
+        return info
       end 
-    end
-  end
-  return stat
-end
-
-def big_shoe_rebounds
-  max = 0
-  arr = []
-  data = game_hash
-  data.each do |team, teams|
-    teams[:players].count do |names|
-      arr.push(names[:shoe])
-    end
-  end
-  arr.count do |ele|
-    if ele >max
-      max = ele 
     end 
   end 
-  data.each do |team, teams|
-    teams[:players].count do |names|
-      if(names[:shoe] == max)
-        return names[:rebounds]
+end 
+
+def big_shoe_rebounds
+  arr = []
+  data = game_hash
+  data.each do |location, players|
+    players[:players].each do |info|
+      arr.push(info[:shoe])
+    end 
+  end 
+  max = 0 
+  arr.count do |element|
+    if(element > max)
+      max = element
+    end 
+  end 
+  data.each do |locations, playerss|
+    playerss[:players].each do |infos|
+      if(infos[:shoe]==max)
+        return infos[:rebounds]
       end 
-    end
-  end
+    end 
+  end 
 end 
